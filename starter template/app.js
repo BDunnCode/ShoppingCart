@@ -8,19 +8,19 @@ function renderProducts() {
             <div class="item">
                 <div class="item-container">
                     <div class="item-img">
-                        <img src="./img/t1.png" alt="t-shirt 1">
+                        <img src="${product.imgSrc}" alt="${product.name}">
                     </div>
                     <div class="desc">
-                        <h2>T-shirt 1</h2>
-                        <h2><small>$</small>29.99</h2>
+                        <h2>${product.name}</h2>
+                        <h2><small>$</small>${product.price}</h2>
                         <p>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum, dicta!
+                            ${product.id}
                         </p>
                     </div>
                     <div class="add-to-wishlist">
                         <img src="./icons/heart.png" alt="add to wish list">
                     </div>
-                    <div class="add-to-cart">
+                    <div class="add-to-cart" onclick="addToCart(${product.id})">
                         <img src="./icons/bag-plus.png" alt="add to cart">
                     </div>
                 </div>
@@ -29,3 +29,8 @@ function renderProducts() {
   });
 }
 renderProducts();
+
+// ADD TO CART
+function addToCart(id) {
+  console.log(id);
+}
