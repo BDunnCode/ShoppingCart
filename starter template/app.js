@@ -1,5 +1,6 @@
 // SELECT ELEMENTS
 const productsEl = document.querySelector(".products");
+const cartItemsEl = document.querySelector(".cart-items");
 
 // RENDER PRODUCTS
 function renderProducts() {
@@ -30,7 +31,48 @@ function renderProducts() {
 }
 renderProducts();
 
+// cart array
+let cart = [];
+
 // ADD TO CART
 function addToCart(id) {
-  console.log(id);
+  // check if product already exists in cart
+  if (cart.some((item) => item.id === i)) {
+    alert("Product already in cart!");
+  } else {
+    const item = products.find((product) => product.id === id);
+  }
+
+  cart.push({
+    ...item,
+    numberofUnits: 1,
+  });
+
+  updateCart();
+}
+
+// update cart
+function updateCart() {
+  renderCartItems();
+  //   renderSubtotal();
+}
+
+// render cart items
+function renderCartItems() {
+  cart.forEach((item) => {
+    cartItemsEl.innerHTML += `
+        <div class="cart-item">
+            <div class="item-info">
+                <img src="${item.imgSrc}" alt=" />
+                <h4>T-shirt 1</h4>
+            </div>
+            <div class="unit-price"><small>$</small>29.99</div>
+            <div class="units">
+                <div class="btn minus">-</div>
+                <div class="number">1</div>
+                <div class="btn plus">+</div>
+            </div>
+        </div>
+    `;
+  });
 }
