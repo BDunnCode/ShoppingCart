@@ -63,8 +63,8 @@ function renderCartItems() {
     cartItemsEl.innerHTML += `
         <div class="cart-item">
             <div class="item-info">
-                <img src="${item.imgSrc}" alt=" />
-                <h4>T-shirt 1</h4>
+                <img src="${item.imgSrc}" alt="${item.name}" />
+                <h4></h4>
             </div>
             <div class="unit-price"><small>$</small>29.99</div>
             <div class="units">
