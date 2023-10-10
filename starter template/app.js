@@ -59,6 +59,7 @@ function updateCart() {
 
 // render cart items
 function renderCartItems() {
+  cartItemsEl.innerHTML = ""; // clear cart element
   cart.forEach((item) => {
     cartItemsEl.innerHTML += `
         <div class="cart-item">
@@ -66,13 +67,34 @@ function renderCartItems() {
                 <img src="${item.imgSrc}" alt="${item.name}" />
                 <h4>${item.name}</h4>
             </div>
-            <div class="unit-price"><small>$</small>${item.price}</div>
+            <div class="unit-price">
+                <small>$</small>${item.price}
+            </div>
             <div class="units">
-                <div class="btn minus">-</div>
-                <div class="number">${item.imgSrc}</div>
-                <div class="btn plus">+</div>
+                <div class="btn minus" onclick="changeNumberOfUnits('minus', ${item.id})">-</div>
+                <div class="number">${item.numberOfUnits}</div>
+                <div class="btn plus" onclick="changeNumberOfUnits('plus', ${item.id})">+</div>
             </div>
         </div>
     `;
+  });
+}
+
+// change number of units for an item
+function changeNumberOfUnits(action, id) {
+  cart = cart.map((item) => {
+    let NumberOfUnits = item.numberOfUnits;
+
+    if (item.id === id) {
+      if (action === "minus") {
+        NumberOfUnits--;
+      } else if (action === "plus") {
+        NumberOfUnits++;
+      }
+    }
+    return {
+      ...item,
+      numberOfUnits,
+    };
   });
 }
