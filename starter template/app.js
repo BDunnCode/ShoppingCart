@@ -17,7 +17,7 @@ function renderProducts() {
                         <h2>${product.name}</h2>
                         <h2><small>$</small>${product.price}</h2>
                         <p>
-                            ${product.id}
+                            ${product.description}
                         </p>
                     </div>
                     <div class="add-to-wishlist">
@@ -40,7 +40,7 @@ updateCart();
 // ADD TO CART
 function addToCart(id) {
   // check if product already exists in cart
-  if (cart.some((item) => item.id === i)) {
+  if (cart.some((item) => item.id === id)) {
     changeNumberOfUnits("plus", id);
   } else {
     const item = products.find((product) => product.id === id);
@@ -112,13 +112,13 @@ function removeItemFromCart(id) {
 // change number of units for an item
 function changeNumberOfUnits(action, id) {
   cart = cart.map((item) => {
-    let NumberOfUnits = item.numberOfUnits;
+    let numberOfUnits = item.numberOfUnits;
 
     if (item.id === id) {
       if (action === "minus" && numberOfUnits > 1) {
-        NumberOfUnits--;
+        numberOfUnits--;
       } else if (action === "plus" && numberOfUnits < item.instock) {
-        NumberOfUnits++;
+        numberOfUnits++;
       }
     }
     return {
