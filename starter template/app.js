@@ -1,6 +1,8 @@
 // SELECT ELEMENTS
 const productsEl = document.querySelector(".products");
 const cartItemsEl = document.querySelector(".cart-items");
+const subtotalEl = document.querySelector(".subtotal");
+const totalItemsInCartEl = document.querySelector(".total-items-in-cart");
 
 // RENDER PRODUCTS
 function renderProducts() {
@@ -32,13 +34,14 @@ function renderProducts() {
 renderProducts();
 
 // cart array
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("CART")) || [];
+updateCart();
 
 // ADD TO CART
 function addToCart(id) {
   // check if product already exists in cart
   if (cart.some((item) => item.id === i)) {
-    alert("Product already in cart!");
+    changeNumberOfUnits("plus", id);
   } else {
     const item = products.find((product) => product.id === id);
   }
@@ -54,7 +57,26 @@ function addToCart(id) {
 // update cart
 function updateCart() {
   renderCartItems();
-  //   renderSubtotal();
+  renderSubtotal();
+
+  // save cart to local storage
+  localStorage.setItem("CART", JSON.stringify(cart));
+}
+
+// calculate and render subtotal
+function renderSubtotal() {
+  let totalPrice = 0;
+  totalItems = 0;
+
+  cart.forEach((item) => {
+    totalPrice += item.price * item.numberOfUnits;
+    totalItems += item.numberOfUnits;
+  });
+
+  subtotalEl.innerHTML = `Subtotal (${totalItems} items): $${totalPrice.toFixed(
+    2
+  )}`;
+  totalItemsInCartEl.innerHTML = totalItems;
 }
 
 // render cart items
@@ -63,7 +85,7 @@ function renderCartItems() {
   cart.forEach((item) => {
     cartItemsEl.innerHTML += `
         <div class="cart-item">
-            <div class="item-info">
+            <div class="item-info" onclick="removeItemFromCart(${item.id})">
                 <img src="${item.imgSrc}" alt="${item.name}" />
                 <h4>${item.name}</h4>
             </div>
@@ -80,15 +102,22 @@ function renderCartItems() {
   });
 }
 
+// remove item from cart
+function removeItemFromCart(id) {
+  cart = cart.filter((item) => item.id !== id);
+
+  updateCart();
+}
+
 // change number of units for an item
 function changeNumberOfUnits(action, id) {
   cart = cart.map((item) => {
     let NumberOfUnits = item.numberOfUnits;
 
     if (item.id === id) {
-      if (action === "minus") {
+      if (action === "minus" && numberOfUnits > 1) {
         NumberOfUnits--;
-      } else if (action === "plus") {
+      } else if (action === "plus" && numberOfUnits < item.instock) {
         NumberOfUnits++;
       }
     }
@@ -97,4 +126,6 @@ function changeNumberOfUnits(action, id) {
       numberOfUnits,
     };
   });
+
+  updateCart();
 }
